@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordenando Valores</title>
+    <!-- Adicione o link para o Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="valor">Valor:</label>
+                    <input type="number" id="valor" class="form-control">
+                </div>
+                <button onclick="add()" class="btn btn-primary">Adicionar</button>
+                <select id="algoritmo" class="form-control mt-2">
+                    <option value="bubble_sort">Bubble Sort</option>
+                    <option value="selection_sort">Selection Sort</option>
+                    <option value="quick_sort" selected>Quick Sort</option>
+                </select>
+                <button onclick="ordenar()" class="btn btn-success mt-2">Ordenar</button>
+                <button onclick="misturar()" class="btn btn-info mt-2">Misturar</button>
+            </div>
+            <div class="col-md-6">
+                <ul id="valores" class="list-group mt-2"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adicione os scripts do Bootstrap e do jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="ordenando.js"></script>
+
+    <script>
+        function add() {
+            const input = document.getElementById("valor");
+            const ul = document.getElementById("valores");
+            const node = document.createElement("li");
+            node.classList.add("list-group-item");
+            const textNode = document.createTextNode(input.value);
+            node.appendChild(textNode);
+            ul.appendChild(node);
+            input.value = "";
+        }
+
+        function ordenar() {
+            const ul = document.getElementById("valores");
+            const select = document.getElementById("algoritmo");
+            const values = Array.from(ul.children).map((li) => eval(li.innerHTML));
+            if (select.value === "bubble_sort") {
+                bubble_sort(values);
+            } else if (select.value === "selection_sort") {
+                selection_sort(values);
+            } else if (select.value === "quick_sort") {
+                quick_sort(values, 0, values.length - 1);
+            }
+            ul.innerHTML = "";
+            values.forEach((value) => {
+                const li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.appendChild(document.createTextNode(value));
+                ul.appendChild(li);
+            });
+        }
+
+        function misturar() {
+            const ul = document.getElementById("valores");
+            const values = Array.from(ul.children).map((li) => eval(li.innerHTML));
+            shuffle(values, values.length * 2);
+            ul.innerHTML = "";
+            values.forEach((value) => {
+                const li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.appendChild(document.createTextNode(value));
+                ul.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

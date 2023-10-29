@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Receitas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body onload="preencheCatalogo()">
+    <div class="container-fluid bg-warning">
+        <div id="pnlCatalogo" class="d-flex flex-wrap"></div>
+    </div>
+
+    <script>
+        const receitas = [
+            {
+                titulo: "Bolo de Chocolate",               
+                imagem: "bolo.png",
+                preparo: "Preaqueça o forno a 180°C. Misture todos os ingredientes em uma tigela. Despeje a massa em uma forma untada. Asse por 30 minutos.",
+                ingredientes: ["Farinha de trigo", "Açúcar", "Cacau em pó", "Ovos", "Leite", "Óleo", "Fermento em pó"]
+            },
+            {
+                titulo: "Macarrão com Molho de Tomate",
+                imagem: "tomate.png",
+                preparo: "Cozinhe o macarrão conforme as instruções da embalagem. Refogue a cebola e o alho no azeite. Adicione os tomates picados e tempere com sal e pimenta. Cozinhe por 15 minutos e sirva sobre o macarrão.",
+                ingredientes: ["Macarrão", "Tomates", "Cebola", "Alho", "Azeite", "Sal", "Pimenta"]
+            },
+            {
+                titulo: "Salada César",
+                imagem: "cesar.png",
+                preparo: "Lave e rasgue as folhas de alface. Adicione os croutons e o queijo parmesão. Corte o peito de frango em tiras e coloque por cima. Regue com o molho Caesar e sirva.",
+                ingredientes: ["Alface romana", "Croutons", "Queijo parmesão ralado", "Peito de frango grelhado", "Molho Caesar"]
+            }
+        ];
+
+        function getListaIngredientes(receita) {
+            const listaHTML = "<ul>" + receita.ingredientes.map(ingredientes => `<li>${ingredientes}</li>`).reduce((a, b) => a + b, "") + "</ul>";
+            return listaHTML;
+        }
+
+        function getCard(receita) {
+            return `
+                <div class="card" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">${getListaIngredientes(receita)}</div>
+                        <hr>
+                        <p>${receita.preparo}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById("pnlCatalogo");
+            const catalogoHTML = receitas.map(receita => getCard(receita)).reduce((a, b) => a + b, "");
+            pnlCatalogo.innerHTML = catalogoHTML;
+        }
+    </script>
+</body>
+</html>
